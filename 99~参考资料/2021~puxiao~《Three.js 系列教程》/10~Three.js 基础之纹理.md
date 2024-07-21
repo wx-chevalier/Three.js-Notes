@@ -13,11 +13,11 @@
 
 **纹理加载器的简单示例代码：**
 
-```
-const loader = new Three.TextureLoader()
+```js
+const loader = new Three.TextureLoader();
 const material = new Three.MeshBasicMaterial({
-  map:loader.load('xxx/xx.jpg')
-})
+  map: loader.load("xxx/xx.jpg"),
+});
 ```
 
 **补充一点：**
