@@ -4,13 +4,9 @@
 
 下面我们讲解一下 Three.Screen 的背景设置方式。
 
-<br>
-
 ## 设置场景背景
 
 场景(Three.Screen)有一个属性 .background。我们可以通过设置这个属性来给场景添加背景。
-
-<br>
 
 **.background 属性值类型**
 
@@ -30,16 +26,12 @@
 
 3. 某纹理 Three.Texture
 
-<br>
-
 **设置背景色示例代码：**
 
 ```
 const scene = new Three.Scene()
 scene.background = new Three.Color(0x333333)
 ```
-
-<br>
 
 **设置背景纹理图片示例代码：**
 
@@ -59,8 +51,6 @@ textureLoader.load(require('@/assets/imgs/blue_sky.jpg').default, (texture) => {
 })
 ```
 
-<br>
-
 上面设置场景纹理背景图，实际运行后你会发现虽然背景图显示了，但是背景图却有可能是变形着的。
 
 这是由于背景图片本身就一个宽高比，而画布(Canvas)本身也有一个宽高比。
@@ -70,8 +60,6 @@ textureLoader.load(require('@/assets/imgs/blue_sky.jpg').default, (texture) => {
 > ```
 > renderer.setSize(width, height, false)
 > ```
-
-<br>
 
 **判断高宽比，不让背景图变形且可以铺满整个背景**
 
@@ -83,8 +71,6 @@ textureLoader.load(require('@/assets/imgs/blue_sky.jpg').default, (texture) => {
 2. 计算出背景图宽高比，例如 imgAspect
 3. 然后计算 imgAspect/canvasAspect，得到 最终背景图在不变形的前提下的缩放比，例如 const resultAspect = imgAspect / canvasAspect
 4. 然后依次设置背景图纹理的偏移(offset.x、offset.y)，以及判断是否需要重复平铺背景图(repeat.x、repeat.y)
-
-<br>
 
 **示例代码如下：**
 
@@ -119,8 +105,6 @@ const handleResize = () => {
     }
 }
 ```
-
-<br>
 
 **完整的示例代码如下：**
 
@@ -211,15 +195,11 @@ const HelloSkybox = () => {
 export default HelloSkybox
 ```
 
-<br>
-
 请注意，上面讲述的是将背景图片加载进 Three.js 中，并当做纹理来使用。我们可以通过修改纹理各种属性来修改和控制背景图。
 
 > 上面示例代码中仅仅是对纹理的偏移和重复进行了设置
 
 但是，假设就仅仅为了达到上述效果，实际上我们根本不用搞这么复杂，直接给网页中 <canvas\> 标签设置一个背景图片即可。
-
-<br>
 
 **第 1 步：添加渲染器参数 alpha:true**
 
@@ -227,8 +207,7 @@ export default HelloSkybox
 const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current, alpha: true })
 ```
 
-<br>
-**第2步：给画布标签(<canvas\>)添加背景图**
+**第 2 步：给画布标签(<canvas\>)添加背景图**
 
 第 1 种添加方式：通过 css 添加
 
@@ -244,8 +223,6 @@ const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current, alpha: tru
 
 > 请注意：上面 .scss 中我们给背景设置的图片路径，其实指向项目的 public 目录
 
-<br>
-
 第 2 种添加方式：通过 JS 添加
 
 ```
@@ -259,13 +236,9 @@ const canvasStyle = {
 
 > React 在编译时，会自动将 `style={canvasStyle}` 中的样式转化为 CSS 样式
 
-<br>
-
 至此，关于如何设置场景背景图片，讲解完毕。
 
 接下来要讲解一个常见的 Three.js 应用场景：SkyBox(天空盒)。
-
-<br>
 
 ## 天空盒(Skybox)
 
@@ -277,13 +250,9 @@ const canvasStyle = {
 
 这也是我们日常听到对最多的 Web 3D 应用：VR 看房
 
-<br>
-
 上面对于天空盒的解释正确吗？
 
 答：正确但不严谨！
-
-<br>
 
 通常我们所说天空盒(Skybox) 一个非常重要的特性就是：像天空一样大的盒子
 
@@ -293,14 +262,10 @@ const canvasStyle = {
 
 而本文下面所有的示例，其实都是针对场景背景添加纹理贴图，所以下面示例中的天空盒(skybox)空间等同于场景本身。
 
-<br>
-
 **天空盒一共有 2 种形式的贴图资源：**
 
 1. 全景图(hdri)，又名 天空图
 2. 立方体贴图(cubemap)
-
-<br>
 
 #### 第 1 种实现天空盒的方法：全景图(hdri)
 
@@ -338,8 +303,6 @@ const canvasStyle = {
 
 5. 然后正常渲染，我们就会感觉此刻身在房间中
 
-<br>
-
 **示例代码：**
 
 房间图片素材：
@@ -352,8 +315,6 @@ const canvasStyle = {
 4. https://threejsfundamentals.org/threejs/resources/images/cubemaps/computer-history-museum/neg-y.jpg
 5. https://threejsfundamentals.org/threejs/resources/images/cubemaps/computer-history-museum/pos-z.jpg
 6. https://threejsfundamentals.org/threejs/resources/images/cubemaps/computer-history-museum/neg-z.jpg
-
-<br>
 
 实际代码：
 
@@ -371,15 +332,11 @@ cubeTextureLoader.load([
 })
 ```
 
-<br>
-
 **针对贴图资源顺序的补充说明：**
 
 在上面示例代码中，我们可以看到加载立方体 6 面图片贴图资源的顺序是固定的，依次为：
 
 pos-x.jpg、neg-x.jpg、pos-y.jpg、neg-y.jpg、pos-z.jpg、neg-z.jpg
-
-<br>
 
 **"pos" 是单词 "positive" 的缩写，在 3D 坐标系中意思是 正**
 
@@ -389,8 +346,6 @@ pos-x.jpg、neg-x.jpg、pos-y.jpg、neg-y.jpg、pos-z.jpg、neg-z.jpg
 
 > negative：消极的、负面的
 
-<br>
-
 ### 左手坐标系统 VS 右手坐标系统
 
 我们先介绍一下 右手坐标系统，你就自然明白什么是左手坐标系统了。
@@ -399,13 +354,9 @@ pos-x.jpg、neg-x.jpg、pos-y.jpg、neg-y.jpg、pos-z.jpg、neg-z.jpg
 
 右手系(right-hand system)是在空间中规定直角坐标系的方法之一。此坐标系中 x 轴，y 轴和 z 轴的正方向是如下规定的：把右手放在原点的位置，使大拇指，食指和中指互成直角，把大拇指指向 x 轴的正方向，食指指向 y 轴的正方向时，中指所指的方向就是 z 轴的正方向。
 
-<br>
-
 同样的操作你换做左手，那么就是左手坐标系统。
 
 **左手坐标系统和右手坐标系统在 Y 轴、Z 轴 方面没有区别，但是在 X 轴上是彼此相反的。**
-
-<br>
 
 **对于立方体贴图，使用的是左手系统！**
 
@@ -426,8 +377,6 @@ pos-x.jpg、neg-x.jpg、pos-y.jpg、neg-y.jpg、pos-z.jpg、neg-z.jpg
 >
 > 但是我们现在做的是站在立方体内部去观察立方体，所以此刻 “立方体的正面” 实际上对于我们观察者而言是在我们身后，也就是我们的视觉后方。
 
-<br>
-
 **对于 Three.js 渲染使用的是 右手坐标系统！**
 
 **不过你不用担心左右方向相反这个事情，因为在 Three.js 内部在渲染的时候会自动帮我们将左右对调。**
@@ -439,11 +388,7 @@ pos-x.jpg、neg-x.jpg、pos-y.jpg、neg-y.jpg、pos-z.jpg、neg-z.jpg
 > 3. 但在渲染立方体内部贴图时，Three.js 会自动帮我们做好左右兑换
 > 4. 因此我们在传递纹理贴图时，贴图顺序使用的是左手坐标系统
 
-<br>
-
 > 糟糕，我也是今天学习到这里才彻底明白坐标系统，我可能在之前的文章中对于 上下左右前后 讲解错了，但是我暂时记不清是哪一章节。
-
-<br>
 
 #### 第 2 种实现天空盒的方法：立方体贴图(cubemap)
 
@@ -451,15 +396,11 @@ pos-x.jpg、neg-x.jpg、pos-y.jpg、neg-y.jpg、pos-z.jpg、neg-z.jpg
 
 接下来我们学习使用一张 360° 球形相机拍摄的照片，来实现 3D 空间立方体。
 
-<br>
-
 首先你从网上找到一张 360° 的场景图片资源：
 
 https://threejsfundamentals.org/threejs/resources/images/equirectangularmaps/tears_of_steel_bridge_2k.jpg
 
 > 请注意，这类图片尺寸宽高比例为 2:1，经常称呼这类图片为 “全景图”
-
-<br>
 
 **实现思路：**
 
@@ -485,8 +426,6 @@ https://threejsfundamentals.org/threejs/resources/images/equirectangularmaps/tea
 
    > 这样相当于将场景背景图的值设置为 WebGLCubeRenderTarget 的渲染结果
 
-<br>
-
 **具体代码：**
 
 ```
@@ -508,8 +447,6 @@ textureLoader.load(require('@/assets/imgs/tears_of_steel_bridge.jpg').default,
 >
 > 就这个问题，我已向官网教程进行了修改提交：https://github.com/gfxfundamentals/threejsfundamentals/pull/205
 
-<br>
-
 ### 补充说明：全景图(hdri) 与 立方体贴图(cubemap) 互转
 
 网上有人提供了 全景图与立方体模型图 之间的转化工具包：
@@ -518,8 +455,6 @@ textureLoader.load(require('@/assets/imgs/tears_of_steel_bridge.jpg').default,
 
 项目源码：https://github.com/aunyks/hdri-to-cubemap
 
-<br>
-
 你以为本文结束了？没有！
 
 我们上面示例都是 天空盒(skybox)，那如果是真的一个立方体呢？
@@ -527,7 +462,5 @@ textureLoader.load(require('@/assets/imgs/tears_of_steel_bridge.jpg').default,
 > 天空盒 是没有尺寸，空间无限大的，而普通立方体则是有尺寸的。
 
 下面示例我们将创建一个立方体，然后对立方体内部进行贴图，并渲染和观察立方体盒子内部。
-
-<br>
 
 ## 普通立方体内部贴图和渲染

@@ -2,8 +2,6 @@
 
 从今天开始，在本文中记录实际 Three.js 开发过程中所遇到的知识点。
 
-<br>
-
 **关于示例代码的一般约定说明：**
 
 1. 举例的时候，很多都是伪代码
@@ -12,27 +10,23 @@
 4. 使用 Xxx 泛指同一类型，例如 XxxCamer 泛指各类相机
 5. 由于我们讲解的是 Three.js，所以全部使用的是 右手坐标系
 
-<br>
-
 #### 01、每一个 Object3D 对象都只能有一个父级
 
 这里说的 Object3D 实际上包括所有继承于 Object3D 的子类，例如 Mesh、Camera、Group 等
 
 举例说明：
 
-```
-const mesh = new Mesh(geometry,material)
+```js
+const mesh = new Mesh(geometry, material);
 
-const sceneA = new Scene()
-const sceneB = new Scene()
+const sceneA = new Scene();
+const sceneB = new Scene();
 
-sceneA.add(mesh)
-sceneB.add(mesh)
+sceneA.add(mesh);
+sceneB.add(mesh);
 ```
 
 由于 mesh 只能有一个父类，所以当 sceneB 也执行 .add(mesh) 后，sceneA.children 中会自动删除掉 mesh。
-
-<br>
 
 #### 02、克隆或复制 Mesh 不会在内存中真正复制出一份 顶点(geometry)和材质(material)，它们使用的是引用，而不是复制
 
@@ -49,8 +43,6 @@ const meshB = meshA.clone()
 也就是说此时 meshA 和 meshB 它们共用了一份 geometry 和 material。
 
 > 不用担心因为多复制了几份 mesh 而增加很多内存。
-
-<br>
 
 #### 03、添加场景(scene)或其他 Object3D 渲染之前和渲染之后的回调函数
 
@@ -79,8 +71,6 @@ scene.onAfterRender = () => {
 renderer.render(scene,camera)
 ```
 
-<br>
-
 #### 04、通过 .layers 控制物体是否被渲染
 
 在 Three.js 中 .layers 对应的是 Layers 这个类，Three.js 规定 Layers 级别的值取值范围为 0 - 32。
@@ -97,8 +87,6 @@ renderer.render(scene,camera)
 mymesh.layers.set(1)
 camera.layers.set(1)
 ```
-
-<br>
 
 对于相机而言，它只能渲染出同一级别的物体元素。
 
@@ -125,8 +113,6 @@ cameraB.layers.set(1)
 1. 我们按照默认的形式添加了 meshA、cameraA，它们默认层级为 0
 2. 手动修改了 meshB、cameraB 的 .layers 层级为 1
 
-<br>
-
 那么当执行下面的代码：
 
 ```
@@ -137,8 +123,6 @@ renderer.render(scene. cameraB)
 1. cameraA 只会渲染出场景中同一级别的 meshA
 2. cameraB 只会渲染出场景中同一级别的 meshB
 
-<br>
-
 也可以选择随时修改 meshA 的 .layers 值，这样 cameraB 就可以渲染到它了。
 
 ```
@@ -146,14 +130,10 @@ meshA.layers.set(1)
 renderer.render(secen, cameraB)
 ```
 
-<br>
-
 换句话说，假设我们希望控制是否渲染场景中某些元素，那么有 2 种途径：
 
 1. 设置其 .visible 的值来决定是否渲染
 2. 设置其 .layers 的值来决定只被同一层级的相机渲染
-
-<br>
 
 #### 05、手工修改 Object3D 实例的.matrix 时切记要设置 .matrixAutoUpdate=false
 
@@ -171,8 +151,6 @@ mesh.matrixAutoUpdate = false
 mesh.matrix.copy(otherMatrix)
 ```
 
-<br>
-
 但是上面的代码存在另外一个问题：尽管 .matrix 值更新了，可是 mesh 的其他属性值 例如 .position，.quaternion，scale，rotation 却没有自动更新。
 
 解决方式很简单，可以通过 Matrix 的 .decompose() 方法优雅更新它们。
@@ -187,8 +165,6 @@ meshB.matrix.decompose(meshB.position, meshB.quaternion, meshB.scale)
 
 > 当修改 meshB.quaternion 值后会自动修改 meshB.rotation 的值
 
-<br>
-
 #### 06、绘制三角形的顶点顺序决定了该三角形是正面(顺时针)还是反面(逆时针)
 
 一个三角形有 3 个顶点，假定为 a、b、c，那么：
@@ -197,8 +173,6 @@ meshB.matrix.decompose(meshB.position, meshB.quaternion, meshB.scale)
 2. 假定 a b c 连接顺序为 顺时针，那么最终形成的三角形为 反面(背面)
 
 另外一种判定形式是：右手握住沿着两个顶点添加顺序的连接线，此时大拇指指示方向即为正面
-
-<br>
 
 #### 07、保持外观和位置的前提下，将立方体的顶点坐标 "归一化"
 
@@ -215,21 +189,19 @@ meshB.matrix.decompose(meshB.position, meshB.quaternion, meshB.scale)
 3. 将这个缩放比例应用到立方体本身的矩阵中即可
 4. 同时将这个立方体的顶点信息修改成 1x1x1 立方体的顶点信息
 
-```
+```js
 const boxGeometryNormalize = (box) => {
-    const originX = box.geometry.attributes.position.array[0]
-    const originY = box.geometry.attributes.position.array[1]
-    const originZ = box.geometry.attributes.position.array[2]
+  const originX = box.geometry.attributes.position.array[0];
+  const originY = box.geometry.attributes.position.array[1];
+  const originZ = box.geometry.attributes.position.array[2];
 
-    const scaleX = originX / 0.5
-    const scaleY = originY / 0.5
-    const scaleZ = originZ / 0.5
+  const scaleX = originX / 0.5;
+  const scaleY = originY / 0.5;
+  const scaleZ = originZ / 0.5;
 
-    box.geometry = new BoxGeometry()
-    box.matrixAutoUpdate = false
-    box.matrix.makeScale(scaleX, scaleY, scaleZ)
-    box.matrix.decompose(box.position, box.quaternion, box.scale)
-}
+  box.geometry = new BoxGeometry();
+  box.matrixAutoUpdate = false;
+  box.matrix.makeScale(scaleX, scaleY, scaleZ);
+  box.matrix.decompose(box.position, box.quaternion, box.scale);
+};
 ```
-
-<br>

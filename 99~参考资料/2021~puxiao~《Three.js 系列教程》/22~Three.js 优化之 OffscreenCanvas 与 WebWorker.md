@@ -8,8 +8,6 @@ https://developer.mozilla.org/zh-cn/docs/web/api/web_workers_api/using_web_worke
 
 或者查看我写的另外一篇文章：[WebWorker 学习笔记.md](https://github.com/puxiao/notes/blob/master/WebWorker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.md)
 
-<br>
-
 一些比较新的浏览器(例如谷歌浏览器) 还有另外一个和 WebWorker 搭配使用、针对画布的类：OffscreenCanvas。
 
 **OffscreenCanvas 的作用就是将 canvas 的控制权转让给 Web Worker。**
@@ -19,8 +17,6 @@ https://developer.mozilla.org/zh-cn/docs/web/api/web_workers_api/using_web_worke
 > 补充一个知识点：
 >
 > 和 OffscreenCanvas 类似的还有 ArrayBuffer、MessagePort、ImageBitmap，他们都可以与 WebWorker 搭配使用
-
-<br>
 
 ## OffscreenCanvas 的概念和用法
 
@@ -40,13 +36,9 @@ https://developer.mozilla.org/zh-cn/docs/web/api/web_workers_api/using_web_worke
 
 但是请记得：目前绝大多数浏览器均已支持 WebWorker，但是对 OffscreenCanvas 的支持度并不高。
 
-<br>
-
 **如何创建 OffscreenCanvas ？**
 
 不可以使用 new OffscreenWorker() 的方式来创建 OffscreenCanvas，而是使用 canvas.transferControlToOffscreen() 来获得 canvas 对应的 OffscreenCanvas。
-
-<br>
 
 **如何检测当前浏览器是否支持 OffscreenCanvas？**
 
@@ -87,8 +79,6 @@ if (canvas.transferControlToOffscreen !== null) {
 >
 > > 注意：上面 2 种查询方式都需要属性名的字符串值，为了更好的语法提示，我们示例中并不这样用。
 
-<br>
-
 #### OffscreenCanvas 的用法
 
 > 再次强调：通常情况下 OffscreenCanvas 必须搭配 Web Worker 一起使用。
@@ -122,8 +112,6 @@ if (canvas.transferControlToOffscreen !== null) {
    >
    > 在本文后半部分会有详细讲解。
 
-<br>
-
 **实际差异：**
 
 刚才将的是理论上大体步骤，但是由于我们本教程的示例代码，实际上是运行在 React + TypeScript 环境上的，也就是说我们需要编写的是 worker.ts 而不是 worker.js。
@@ -136,27 +124,19 @@ if (canvas.transferControlToOffscreen !== null) {
 
 接下来，我们将通过一个实际的例子，来演示一遍 OffscreenCanvas + Worker。
 
-<br>
-
 ## 离屏画布渲染示例：HelloOffscreenCanvas
 
 假设你已经配置好了 worker-loader，那么我们开始本示例。
-
-<br>
 
 #### 示例目标：
 
 1. 场景上有 3 个不同颜色，不断旋转的立方体
 2. 我们将场景中的渲染工作，从主程序中抽离出去，让 Web Worker 来负责场景的渲染工作，依次来减轻主程序的运算负担。
 
-<br>
-
 **补充说明：**
 
 1. 我们场景中动画渲染本身计算量并不是很大，即使我们不使用 web worker 浏览器也不会卡顿，但本示例只是为了演示如何使用 OffscreenCanvas + Worker。
 2. 我们先假设你的浏览器是支持 OffscreenCanvas 的。
-
-<br>
 
 #### 关键点说明：
 
@@ -187,8 +167,6 @@ if (canvas.transferControlToOffscreen !== null) {
 2. index.tsx 通过 .postMessage() 第 2 个参数，将 [OffscreenCanavs] 传递给 worker.ts，也就是说将 canvas 的控制权完全交给 worker.ts
 3. 接下来就是 worker.ts 负责创建 Three.js 场景和物体，并且渲染场景画面内容直接赋予给 OffscreenCanavas。
 
-<br>
-
 #### 其他补充：
 
 由于 worker 本身无法获取 DOM ，以及无法获取浏览器某些事件，例如浏览器的窗口大小变动事件。
@@ -198,8 +176,6 @@ if (canvas.transferControlToOffscreen !== null) {
 > 与窗口尺寸改变相似的还有鼠标移动事件，也可以通过传递当前鼠标坐标位置传递给 Worker 以便做出相应的处理。后期我们会学习如何做场景物体拾取效果，就是鼠标放到某个物体上时物体做出相应变化，这种场景就会需要用到鼠标坐标。
 
 接下来，就开始具体编写代码吧。
-
-<br>
 
 #### message-data.ts
 
@@ -230,8 +206,6 @@ export type MessageData =
     |
     { type: WorkerFunName.updateSize, params: CanvasSize }
 ```
-
-<br>
 
 #### worker.ts
 
@@ -309,8 +283,6 @@ self.addEventListener("messageerror", handleMessageError);
 export {};
 ```
 
-<br>
-
 #### index.tsx
 
 > src/components/hello-offscreen-canvas/index.tsx
@@ -372,8 +344,6 @@ export default HelloOffscreenCanvas
 
 运行调试一切正常。
 
-<br>
-
 **接下来我们要解决 2 个问题：**
 
 1. 控制 3D 场景用到的 OrbitControls 类，在新建时需要传递 HTML DOM 元素，交互的过程中需要 DOM 元素的鼠标事件和键盘事件，但是 worker 内部又不能访问 DOM 元素，那该如何解决？
@@ -381,8 +351,6 @@ export default HelloOffscreenCanvas
 2. 假设浏览器不支持 OffscreenCanvas ，那又该如何拆分我们的代码可以做到兼容？
 
    > 在软件开发术语中，会使用 “鲁棒性或健壮性” 来指代码的兼容性和容错性。
-
-<br>
 
 ## 模拟并添加 OrbitControls
 
@@ -406,15 +374,11 @@ OrbitControls 构造函数第 2 个参数无论是 canvas 还是 window.body，�
 
 > 不要想着尝试将 DOM 元素作为 参数，使用 .postMessage() 函数传递给 Worker 内部，因为 .postMessage() 函数中的参数并不是传递引用，而是直接深度复制一份。
 
-<br>
-
 #### 那么究竟该怎么办呢？
 
 我们先研究一下 OrbitControls 的源码：
 
 https://github.com/mrdoob/three.js/blob/dev/examples/jsm/controls/OrbitControls.js
-
-<br>
 
 我把源码中和 Dom 元素相关的一些关键代码摘录出来：
 
@@ -455,15 +419,11 @@ if ( state !== STATE.NONE ) {
 
 > 补充说明：在最新的浏览器事件中 pointer 相关事件即包含触控笔，也包含鼠标。所以 pointerdown、pointermove、pointerup 这 3 个事件对应 触控笔或鼠标 对应的事件，相当于是 2 者的合体。
 
-<br>
-
 从上面可以看出，我们初始化传递给 OrbitControls 的 DOM 元素主要是用来添加各种事件侦听。
 
 > 当然 OrbitControls 代码中也有对应的 removeEventListener 移除事件侦听。
 
 > 补充一点：contextmenu 事件虽然目前部分浏览器支持(主要是火狐浏览器)，但是在 MDN 的文档中已经明确该事件即将被废除。
-
-<br>
 
 **重点来了，请听好：**
 
@@ -484,8 +444,6 @@ if ( state !== STATE.NONE ) {
 4. 然后我们让 OrbitControls 去侦听这个虚拟对象所发出的各种事件
 
 5. 也就是说让这个虚拟对象代替真实的 DOM 元素，以此来解决我们目前的困境
-
-<br>
 
 **思路有了，那该具体怎么做呢？**
 
@@ -523,8 +481,6 @@ if ( state !== STATE.NONE ) {
 
 5. ...
 
-<br>
-
 我们需要让 “虚拟对象” 抛出 “虚拟事件”，并且虚拟事件拥有上面那些属性值。
 
 > 补充说明：这里所说的 “抛出事件” 暗含 2 种事件：
@@ -534,8 +490,6 @@ if ( state !== STATE.NONE ) {
 > 2. 浏览器窗口变化引发 “DOM 元素” 内部尺寸属性相关的修改事件
 >
 >    > 除了 window 拥有 resize 事件之外，普通 DOM 元素是不具备 resize 事件的，我们可以将这个原本不存在的 DOM 元素 resize 追加到 我们的消息中，对于 用户交互事件 我们选择直接抛出、对于 window resize 引发的尺寸修改事件，我们选择内部直接处理。
-
-<br>
 
 **属性补充说明：**
 
@@ -552,8 +506,6 @@ scope.domElement.ownerDocument.addEventListener( 'pointerup', onPointerUp );
 > 在后面的实际代码中你会看到，我们会让 模拟元素 .ownerDocument 指向自身。
 >
 > this.ownerDocument = this
-
-<br>
 
 **document 补充说明：**
 
@@ -580,8 +532,6 @@ self.document = {}
 
 2. 我们添加的 self.document = {} 纯粹是为了让 OrbitControls 构造函数可以去访问到 document 对象，避免报错。
 
-<br>
-
 **所谓的 “抛出事件” 实现的途径是由 我们虚构出的一个 事件派发器 来实现的。**
 
 **该事件派发器的 3 个功能责任：**
@@ -589,8 +539,6 @@ self.document = {}
 1. 监听功能：监听真实 DOM 元素事件：用户交互事件、浏览器尺寸变化事件
 2. 事件转化：将监听到的事件内容，转化为一条数据，该数据包含该事件中 OrbitControls 所需要的各种属性值
 3. 消息传递：将事件转化后的数据，通过 web worker 的 postMessage() 传递给 web worker
-
-<br>
 
 **所谓的“模拟的 DOM 元素”，也就是在 web worker 中工作的 DOM 元素。**
 
@@ -615,8 +563,6 @@ self.document = {}
 
    > 在 web worker 中工作的 OrbitControls，从始至终都不知道自己操作的其实是一个假的 DOM 元素，以及监听的事件也是假的 DOM 事件。
 
-<br>
-
 **整个事件的流程为：**
 
 **真实 DOM 事件 > 转化为消息 > 发送给 worker > 传递给“模拟的 DOM 元素” > 抛出该消息(相当于抛出该事件)**
@@ -624,8 +570,6 @@ self.document = {}
 通过 事件 > 消息 > 消息 > 事件 这样一波操作过后，可以让 OrbitControls 就像监控真实 DOM 元素一样监控运行在 web worker 中的那个 “模拟的 DOM 元素”。
 
 > 我故意一直使用 “模拟的 DOM 元素”这个词，而没有使用 “虚拟 DOM”，就是为了让我们避免和 react 中 虚拟 DOM 的一词弄混淆。
-
-<br>
 
 **关于 事件抛出 的补充说明：**
 
@@ -635,13 +579,9 @@ self.document = {}
 import { EventDispatcher } from 'three'
 ```
 
-<br>
-
 为什么不使用 原生 JS 提供的 EventTarget ？
 
 这是因为原生 JS 提供的 EventTarget 虽然也有 .dispatcheEvent()，但问题是它只可以抛出 JS 中的 Event 实例，而我们在 worker 中并不能使用 Event。
-
-<br>
 
 **补充说明：**
 
@@ -649,13 +589,9 @@ import { EventDispatcher } from 'three'
 
 > 浏览器中原生的各种事件处理函数 其实是异步的。
 
-<br>
-
 **整体解决思路回顾：为什么我们可以实现？**
 
 回顾一下本小节开头的困境问题：web worker 本身不可以访问真实 DOM 元素，当然也包括 DOM 事件。
-
-<br>
 
 **那么我们究竟是怎么做到的？以及为什么我们可以做到？**
 
@@ -665,15 +601,11 @@ import { EventDispatcher } from 'three'
 
 > 目前火狐浏览器并不支持 OffscreenCanvas，所以本示例还要考虑在非 worker 情况下的场景创建。
 
-<br>
-
 **第 2 种机缘巧合：**虽然 web worker 无法直接监听真实 DOM 元素事件，但是 web worker 内部却可以运行 抛出事件 这个操作。于是我们通过 事件 > 消息 > 消息 > 事件 的操作让 web worker 内部模拟出的 DOM 元素拥有了像真实 DOM 元素一样的各种事件抛出机制。
 
 > 再次提醒一下：在 web worker 中，不光 DOM 元素是我们模拟出来的，就连抛出的 DOM 元素事件也是我们模拟出来的。
 
 最终我们让 web worker 中 OrbitControls 正常运行起来了。
-
-<br>
 
 > 如果你对我上面的讲述还不太理解，那么多读几遍，不要着急接着往下看。因为如果整体的思路你没有理解透，那么下面这些具体实现的代码，阅读起来也会一头雾水。
 
@@ -700,15 +632,11 @@ https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver
 
 ![using-orbitcontrols-in-worker.jpg](https://puxiao.com/demo/using-orbitcontrols-in-worker/using-orbitcontrols-in-worker.jpg)
 
-<br>
-
 接下来开始讲解具体代码如何实现。
 
 > 由于我使用的是 React + TypeScript，加上我有一些自己代码理解和划分，所以我下面讲述的代码和原教程很多地方都不一样。
 
 > 过程有点复杂，希望我能讲清楚。
-
-<br>
 
 #### 代码模块规划
 
@@ -746,8 +674,6 @@ https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver
 
    > 我也是因为这个示例而去学习了 JSDoc，感兴趣可查看我另外一篇学习笔记：[JSDoc 的安装与使用.md](https://github.com/puxiao/notes/blob/master/JSDoc%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8.md)
 
-<br>
-
 以上仅仅是 “虚构” 的核心代码，除此之外，我们还需要编写对应的 “应用” 层面的代码：
 
 1. index.tsx：JS 主场景 main 代码
@@ -758,13 +684,9 @@ https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver
 
    > create-world.ts 中的代码并不知道自己将来是运行在 Worker 中还是运行在 主场景中(Main)
 
-<br>
-
 **如果你能坚持看到这里没有被我绕晕，那恭喜你。**
 
 是不是该展示具体代码了？
-
-<br>
 
 ### 项目实际代码
 
@@ -772,15 +694,11 @@ https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver
 
 **https://github.com/puxiao/using-orbitcontrols-in-worker**
 
-<br>
-
 > 为了让全世界的人能看到我的这个代码，我竟然写了一个英文版 README.MD
 
 你可以直接查看我写的简体中文介绍文档：
 
 https://github.com/puxiao/using-orbitcontrols-in-worker/blob/main/README-zh_CN.md
-
-<br>
 
 ### 说一下我的感受
 
@@ -793,8 +711,6 @@ https://github.com/puxiao/using-orbitcontrols-in-worker/blob/main/README-zh_CN.m
 5. 上传到 Github 编写文档
 
 尽管掌握了本章所写的示例代码，但是这些对实际 Three.js 的使用提升并不会有立竿见影的效果。
-
-<br>
 
 #### 但是！
 
@@ -816,18 +732,12 @@ https://github.com/puxiao/using-orbitcontrols-in-worker/blob/main/README-zh_CN.m
 
 4. 接触了 //@ts-ignore 这个特殊注释
 
-<br>
-
 ### 本小节结束
 
 本小节至此结束，同时也意味着本系列教程的 “优化” 篇章讲解完成。
 
 接下来，我们要开始新的阶段学习，下一阶段才决定我们 Three.js 实际应用领域 “质的飞越”。
 
-<br>
-
 **下一阶段，我们要开始学习 Three.js 中常见的各种应用场景解决方案。**
 
 加油，好玩有趣的事情终于要开始了。
-
-<br>

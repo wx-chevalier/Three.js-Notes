@@ -4,13 +4,9 @@
 
 > 注：虽然我们标题写的是 “加载.gltf 模型”，但更加准确地说法应该是 "加载 gtTF 文件"
 
-<br>
-
 首先我们先回顾一下 .obj 文件格式的模型一些特征：文件格式简单(纯文本)、除模型外无法提供其他场景元素(例如摄像机、灯光等)。
 
 本文要讲解的 .gltf 格式文件可以包含的数据内容和类型要比 .obj 多很多。
-
-<br>
 
 ## 常见 3D 文件格式 和 gltf 的区别
 
@@ -25,8 +21,6 @@
 3. Maya 对应的是 .ma
 4. C4D 对应的是 .c4d
 
-<br>
-
 **第 2 类(中转文件)：**
 
 多个 3D 建模软件彼此都可以打开，能够读取的文件格式，例如：
@@ -37,23 +31,17 @@
 
 > 所谓“中转”，是指这些格式的作用实际上相当于将某个模型从 A 软件 导出 然后再 B 软件中可以打开并读取。
 
-<br>
-
 **第 3 类(特定格式)：**
 
 某些 3D 应用独有的文件格式。
 
 例如王者荣耀这款游戏中 3D 模型就可能是自己独有的文件格式。
 
-<br>
-
 **第 4 类(传输格式)：**
 
 > 这里的 “传输” 是英文单词 “Transmission” 的翻译
 
 gltf 就属于传输格式类型的文件。gltf 格式可以做到其他格式都无法做到的事情。
-
-<br>
 
 ### GLTF 文件格式简介
 
@@ -69,13 +57,9 @@ gltf 就属于传输格式类型的文件。gltf 格式可以做到其他格式�
 
 关于更多 gltf 信息，可以查看其官网：https://www.khronos.org/gltf/
 
-<br>
-
 **GLTF 的支持度：几乎所有的 Web 3D 图形框架都支持 GLTF**
 
 > 除了 Three.js 框架外 ，其他 3D JS 引擎框架也都支持 GLTF
-
-<br>
 
 **gltf 优点 1：体积小，便于传输**
 
@@ -84,8 +68,6 @@ gltf 文件中模型的数据都以二进制存储，当下载(使用) gltf 文�
 反观 vrml、.obj 或 .dae 等格式，他们是将数据存储为文本(例如纯文本或 JSON 格式)，也就是说 GPU 在读取这些模型文件时还需要进行文本解析。
 
 在文件体积方面，通常相同的模型顶点数据如果用文本形式存储，要比二进制存储体积大 3 到 5 倍。
-
-<br>
 
 **gltf 优点 2：直接渲染**
 
@@ -99,8 +81,6 @@ gltf 文件中模型的数据是直接要渲染的，而不是要再次编辑的
 
 正因为是不可编辑，所以一些对于渲染而言不重要的数据通常都已被删除，例如多边形都已转化为三角形。
 
-<br>
-
 **gltf 优点 3：内嵌材质信息**
 
 gltf 文件中模型的材质信息是被内嵌进去。
@@ -109,13 +89,9 @@ gltf 文件中模型的材质信息是被内嵌进去。
 
 > 所以，这里隐含的一个事情就是，我们依然需要将 .gltf 文件对应的纹理图片资源 .jpg 放在 pulic 目录中。
 
-<br>
-
 **结论：gltf 格式非常有针对性，是专门为渲染而设计的，文件体积小，且 GPU 读取快速。**
 
 **因此，推荐使用 gltf 格式。**
-
-<br>
 
 ### 在 Blender 中导出 gltf 文件
 
@@ -141,19 +117,13 @@ gltf 文件中模型的材质信息是被内嵌进去。
    >
    > > 尽管我们创建的 hello.blend 中并未设置任何动画，你可以选择取消动画相关的勾选
 
-<br>
-
 此时去导出目录里，我们会发现多出来了一个 `hello.glb` 的文件。
 
 > 特别强调：由于纹理图片资源 metal_texture.jpg 本身就在目录中，所以我们只是从直观上感觉多出了 1 个文件而已。
 
-<br>
-
 **.glb ？不是 .gltf ？**
 
 额~，别着急，我们补充一下 GLTF 格式的知识。
-
-<br>
 
 #### GLTF 是一种 3D 文件格式规范，但是却有 3 种表现形式
 
@@ -169,15 +139,11 @@ gltf 文件中模型的材质信息是被内嵌进去。
 
 3. 纹理贴图资源：这个就不多说了，就是纹理图片 xxx.jpg 或 .png
 
-<br>
-
 **第 2 种表现形式(二进制)：.glb**
 
 .glb：包含场景所有的信息的二进制数据。
 
 > .glb === .gltf + .bin + 纹理图片资源
-
-<br>
 
 **第 3 种表现形式(嵌入式)：.gltf**
 
@@ -185,15 +151,11 @@ gltf 文件中模型的材质信息是被内嵌进去。
 
 > 这种形式由于文件内容是 json，因此是可以通过文本再次编辑的
 
-<br>
-
 **Blender 默认导出 glTF 2.0 格式时，采用的是 .glb 后缀形式。**
 
 想要更改成别的导出形式，我们可以在 Blender 导出项 `格式`下拉框中更改为 “.gltf 分离(.gltf + .bin + 纹理)” 或 "glTF 嵌入式(.gltf)"。
 
 那么此时**导出的文件格式就是 .gltf 后缀形式。**
-
-<br>
 
 **3 种形式的对比：**
 
@@ -209,25 +171,17 @@ gltf 文件中模型的材质信息是被内嵌进去。
 
 > 由于所有数据都只在 .glb 文件中，就 1 个文件也利于文件发送。
 
-<br>
-
 补充一点：有一个网站 https://gltf-viewer.donmccurdy.com/ ，他可以提供 .glb 文件在线预览。
 
 同时在 NPM 上面，有很多针对 .glb 和 .gltf 格式互转的工具包，例如：[gltf-import-export](https://www.npmjs.com/package/gltf-import-export)
 
-<br>
-
 对于 Three.js 来说，加载 glTF 格式的文件，无论哪种形式，均支持。
-
-<br>
 
 ## 使用 GLTFLoader 加载 glTF 文件的示例
 
 在 Three.js 中负责加载 glTF 格式文件的加载器为 GLTFLoader。
 
 用法和之前 OBJLoader 用法完全相同，废话不多说，直接看代码。
-
-<br>
 
 我们先加载 .glb 格式的文件，代码如下：
 
@@ -259,8 +213,6 @@ loader.load(require('@/assets/model/hello.glb').default, (gltf) => {
 >
 > 我们此刻只是将 gltf.scene 添加到了场景中而已，其他数据暂时并未使用到。
 
-<br>
-
 和加载 .glb 类似，如果我们的 3D 数据文件为 分离式的 .gltf，则将上述代码修改为：
 
 ```
@@ -273,15 +225,11 @@ loader.load('./model/hello.gltf', (gltf) => {
 
 > 由于牵扯到不同的文件 webpack 编译，所以我们选择将 .gltf、.bin、.jpg 文件放在 src/public/ 目录中。
 
-<br>
-
 至此，加载 .gltf 文件讲解完成。
 
 就这？明明就几行代码的事情，为什么还要花这样大的篇幅来讲解 .obj 和 .glb、gltf ？
 
 答：要想学得深入，就一定要知道原理，知道 obj 和 gltf 的差异，知其然也要知其所以然。
-
-<br>
 
 我这里提供几个上找到的 glTF 文件资源，方便自己练习使用。
 
@@ -291,29 +239,21 @@ loader.load('./model/hello.gltf', (gltf) => {
 2. https://vr.josh.earth/assets/models/duck/duck.bin
 3. https://vr.josh.earth/assets/models/duck/duck.png
 
-<br>
-
 **一个简易 3D 社区**
 
 https://threejsfundamentals.org/threejs/resources/models/cartoon_lowpoly_small_city_free_pack/scene.gltf
 
 > 这个小区模型比较大，你需要适当调整一下镜头参数，才可以看清楚全貌
 
-<br>
-
 **一个酷酷的头盔**
 
 https://cdn.khronos.org/assets/api/gltf/DamagedHelmet.glb
-
-<br>
 
 **一个宇航员**
 
 https://modelviewer.dev/shared-assets/models/Astronaut.glb
 
 > 真的好酷！
-
-<br>
 
 ## 谷歌开源的一个 JS 库：model-viewer
 
@@ -327,8 +267,6 @@ https://modelviewer.dev/shared-assets/models/Astronaut.glb
 
 > 简单来说就是：在 Web 或 AR 中，一个简单的用来显示 3D 模型的 JS 库。
 
-<br>
-
 具体用法：
 
 ```
@@ -341,15 +279,9 @@ https://modelviewer.dev/shared-assets/models/Astronaut.glb
 >
 > 简直和插入图片标签 <img> 没啥区别。
 
-<br>
-
 交互效果：除了可以渲染出 3D 模型文件，还默认配备有类似 OrbitControls 相同的交互效果。
 
-<br>
-
 兼容性：目前 苹果浏览器 Safari、火狐 Firefox 并不支持。
-
-<br>
 
 至此，关于如何加载 glTF 文件已讲解完毕。
 
@@ -357,17 +289,11 @@ https://modelviewer.dev/shared-assets/models/Astronaut.glb
 
 由于目前我还不会在 Blender 创建动画，所以这一块我们暂且保留，等待以后有机会再继续学习。
 
-<br>
-
 在 Three.js 中，还有很多其他文件格式的加载器，我们就不逐个讲解了，具体的可以查阅官方文档。
-
-<br>
 
 你以为本文结束了？没有！
 
 在上面示例中，我们实际上漏掉了一个非常重要的知识点：加载被压缩过的 .glb 文件
-
-<br>
 
 ## glTF 文件压缩和加载(解压)——Draco
 
@@ -383,8 +309,6 @@ draco 官网：https://google.github.io/draco/
 
 draco 源码：https://github.com/google/draco
 
-<br>
-
 draco 底层是使用 c++ 编写的。
 
 draco 可以在不牺牲模型效果的前提下，将 .glb 文件压缩体积减小很多。
@@ -392,8 +316,6 @@ draco 可以在不牺牲模型效果的前提下，将 .glb 文件压缩体积�
 > 就好像将普通文件压缩成 .zip 一样
 
 > 至于文件减少多少，这个暂时没有查询到
-
-<br>
 
 #### Draco 使用流程是：
 
@@ -411,15 +333,11 @@ draco 可以在不牺牲模型效果的前提下，将 .glb 文件压缩体积�
 
    > 这就引申出来一个事情：我们需要提前将负责 draco 解压的类传递给 GLTFLoader，具体如何做请看后面的讲解。
 
-<br>
-
 #### 如何使用 Draco 压缩 .glb 文件？
 
 具体如何操作实现，暂时我也没有学习，先搁置一下。
 
 > 敬请期待以后的更新
-
-<br>
 
 #### 如何在 Three.js 中加载压缩过的 .glb 文件？
 
@@ -457,8 +375,6 @@ Three.js 源码包中 draco 针对 gltf 文件的解压文件库：
 
 重点来了...
 
-<br>
-
 #### 第 1 步：拷贝 draco 文件到项目 public 中
 
 我们将 Three.js 中 examples/js/libs/draco 目录拷贝到 React 项目的 public 目录中。
@@ -472,8 +388,6 @@ Three.js 源码包中 draco 针对 gltf 文件的解压文件库：
 > 关于 DRACOLoader 的详细解释，请参考官方文档：
 >
 > https://threejs.org/docs/#examples/zh/loaders/DRACOLoader
-
-<br>
 
 我们将之前 GLTFLoader 的代码修改如下：
 
@@ -491,8 +405,6 @@ Three.js 源码包中 draco 针对 gltf 文件的解压文件库：
     	scene.add(gltf.scene)
 	})
 ```
-
-<br>
 
 下面就针对上面 4 行核心代码进行解释说明：
 
@@ -514,11 +426,7 @@ Three.js 源码包中 draco 针对 gltf 文件的解压文件库：
 
 至此，结束！
 
-<br>
-
 虽然 draco 非常复杂，但是对于我们使用者而言却很简单，仅仅上面 4 行代码即可实现加载被 draco 压缩过的 .glb 文件。
-
-<br>
 
 ## 加载.drc 模型文件
 
@@ -527,8 +435,6 @@ Three.js 源码包中 draco 针对 gltf 文件的解压文件库：
 那如果是被 draco 压缩过的 .drc 文件呢？
 
 答：更加简单，直接使用 DRACOLoader 即可。
-
-<br>
 
 DRACOLoader 使用示例代码如下：
 
@@ -545,8 +451,6 @@ loader.load('./xxx/model.drc',
 	}
 }
 ```
-
-<br>
 
 ## 补充说明：修改模型位置偏差
 
@@ -573,7 +477,5 @@ loader.load('./model/lddq.gltf', (gltf) => {
 ```
 
 > Box3 的介绍请执行查阅官方文档。
-
-<br>
 
 下一章节，我们要学习如何添加 场景背景，呵，VR 看房效果要来了！
