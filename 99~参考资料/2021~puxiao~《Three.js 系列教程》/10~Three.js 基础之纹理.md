@@ -147,7 +147,7 @@ const url = 'https://threejsfundamentals.org/threejs/resources/threejs/fonts/hel
 
 在项目 src/components/hello-texture/ 中创建 index.tsx，代码内容：
 
-```
+```js
 import { useEffect, useRef } from 'react'
 import * as Three from 'three'
 
@@ -386,26 +386,27 @@ TextureLoader.load(
 
 为了显示更多纹理图片加载过程中的细节，我们可以将代码修改为：
 
-```
+```ts
 //创建一个 纹理加载器
-const loader = new Three.TextureLoader()
+const loader = new Three.TextureLoader();
 const material = new Three.MeshBasicMaterial({
-  map: loader.load(require('@/assets/imgs/mapping.jpg').default,
-  (texture) => {
-      console.log('纹理图片加载完成')
-      console.log(texture)
-      console.log(texture.image.currentSrc) //此处即图片实际加载地址
+  map: loader.load(
+    require("@/assets/imgs/mapping.jpg").default,
+    (texture) => {
+      console.log("纹理图片加载完成");
+      console.log(texture);
+      console.log(texture.image.currentSrc); //此处即图片实际加载地址
     },
     (event) => {
-      console.log('纹理图片加载中...')
-      console.log(event)
+      console.log("纹理图片加载中...");
+      console.log(event);
     },
     (error) => {
-      console.log('纹理图片加载失败！')
-      console.log(error)
+      console.log("纹理图片加载失败！");
+      console.log(error);
     }
-  )
-})
+  ),
+});
 ```
 
 **请注意：**
