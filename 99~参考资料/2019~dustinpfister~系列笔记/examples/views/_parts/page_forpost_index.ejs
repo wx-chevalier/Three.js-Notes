@@ -1,0 +1,19 @@
+
+
+<h3>Forpost Index:</h3>
+<p><%= URL %></p>
+<br>
+<hr>
+<br>
+
+<div class="links">
+<% links.forEach(function(link){ %>
+ <a href="<%= link.href %>"><%= '' + link.name.replace(/-/g,'_') + '' || 'no name' %></a>  <br><br>
+<% }); %>
+
+
+<% if(text != ''){ %>
+    <textarea style="width:100%;height:200px;background:black;color:white" readonly="true">
+<%= text %>
+    </textarea>
+<% } %>

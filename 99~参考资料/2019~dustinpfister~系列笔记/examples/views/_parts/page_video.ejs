@@ -1,0 +1,37 @@
+<%
+
+   // demo *.ejs file relative to this template
+   let videoIndex = '../videos/' + videoName + '/index'
+
+%>
+
+
+<h2>three.js demo page: </h2>
+<ul>
+  <li>arr : <%= arr %></li>
+  <li>videoName : <%= videoName %></li>
+</ul>
+
+
+<h1><%= videoName %></h1>
+<div id="video"></div>
+<br>
+
+<div id="ui_info"></div><br><br>
+
+<input id="ui_frame_+" type="button" value="frame+">
+<input id="ui_frame_-" type="button" value="frame-">
+<input id="ui_play" type="button" value="play">
+
+<br><br>
+<input id="ui_create_video" type="button" value="create video">
+
+
+<script src="/js/whammy.js"></script>
+<script src="/js/videoui/0.1.0/ui.js"></script>
+
+<%- include(videoIndex, this) %>
+
+<br>
+<br>
+<br>

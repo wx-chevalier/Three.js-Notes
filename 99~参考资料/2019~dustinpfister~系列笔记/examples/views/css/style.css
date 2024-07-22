@@ -1,0 +1,147 @@
+* {
+}
+
+body{
+  color: #ffffff;
+  background: #000000;
+  margin:0px;
+  padding:0px;
+  font-family: courier;
+}
+
+.container{
+  padding: 50px;
+  margin: 0px;
+}
+/*******************
+    The Navagation DIV
+*******************/
+.nav_container{
+  z-index: 1;
+  position:fixed;
+  width: 100%;
+  height: 200px;
+  background:rgba(0,0,0,0.9);
+  background-image: url('header.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  text-align:center;
+}
+/*
+.aniloop_parent{
+  position: static;
+}
+.aniloop_child{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+*/
+#nav_headerapp {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  width: 640px;
+  height: 200px;
+}
+.nav_content{
+  position:absolute;
+  bottom:0px;
+  width:100%;
+  color: #ffffff;
+}
+.nav_title{
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+   color: #2a2a2a;
+   font-size: 32px;
+   text-shadow: 4px 4px 8px lime, 2px 2px 4px white;
+}
+.nav_links{
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  font-size: 12pt;
+  width: 600px;
+  padding:5px;
+  background: rgba(0, 32, 0, 0.8);
+}
+/*******************
+    The Content DIV
+*******************/
+.content_container{
+  z-index: 0;
+  padding-top: 200px;
+}
+/*******************
+    DEMO DIV
+*******************/
+#demo{
+  z-index: 0;
+  position: relative;
+  background-image: url('demoback.png');
+  background-repeat: repeat;
+  background-size: 32px 32px;
+  background-position: 0px 0px;
+
+  /*width:640px; */
+
+  /*max-width:100%;
+  max-height:100%;*/
+  /*width: 700px;*/
+  margin-right:auto;
+  margin-left:auto;
+  outline: 4px solid #00af00;
+}
+/*
+#demo > canvas {
+  z-index: 0;
+  width:640px;
+  height:480px;
+}
+*/
+
+@media (max-width: 399px) {
+  #demo{
+    width:200px;
+  }
+  #demo > canvas {
+    width: 200px;
+    height:180px;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 799px) {
+  #demo{
+    width:320px;
+  }
+  #demo > canvas {
+    width:320px;
+    height:240px;
+  }
+}
+
+@media (min-width: 800px){
+  #demo{
+    width:640px;
+  }
+  #demo > canvas {
+    width:640px;
+    height:480px;
+  }
+}
+/*******************
+    LINKS
+*******************/
+.links > a {
+  font-size: 20px;
+  line-height: 8px;
+}
+a:link { color: #00ff00 }
+a:visited { color: #00af00 }
+a:hover { color: #ffffff }

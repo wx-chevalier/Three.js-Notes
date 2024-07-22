@@ -1,0 +1,106 @@
+{
+  "metadata":{
+    "version":4.5,
+    "type":"BufferGeometry",
+    "generator":"Hand Coded"
+  },
+  "type":"BufferGeometry",
+  "data":{
+    "attributes":{
+      "position":{
+        "itemSize":3,
+        "type":"Float32Array",
+        "array":[
+          0.0, 0.0, 0.0,
+         -1.0, 2.0, 0.0,
+         -1.0, 0.5, 0.0,
+          1.0, 2.0, 0.0,
+          1.0, 0.5, 0.0,
+         -0.7,-1.0, 0.0,
+         -0.7,-0.1, 0.0,
+          0.7,-1.0, 0.0,
+          0.7,-0.1, 0.0
+        ],
+        "normalized":false
+      },
+      "normal":{
+        "itemSize":3,
+        "type":"Float32Array",
+        "array":[
+          0,0,1,
+          0,0,1,
+          0,0,1,
+          0,0,1,
+          0,0,1,
+          0,0,1,
+          0,0,1,
+          0,0,1,
+          0,0,1
+        ],
+        "normalized":false
+      },
+      "uv":{
+        "itemSize":2,
+        "type":"Float32Array",
+        "array":[
+          0,0,
+          1,0,
+          1,1,
+          1,0,
+          1,1,
+          1,0,
+          1,1,
+          1,0,
+          1,1
+        ],
+        "normalized":false
+      },
+      "color":{
+        "itemSize":3,
+        "type":"Float32Array",
+        "array":[
+          1,0,0,
+          0.7,0.5,0,
+          0.7,0.5,0,
+          0.7,0.5,0,
+          0.7,0.5,0,
+          0.9,0.5,0,
+          0.9,0.5,0,
+          0.9,0.5,0,
+          0.9,0.5,0
+        ],
+        "normalized":false
+      }
+    },
+    "index":{ 
+        "type": "Uint16Array",
+        "array": [
+          0,1,2,
+          0,4,3,
+          0,6,5,
+          0,7,8
+        ]
+    },
+    "morphTargetsRelative": true,
+    "morphAttributes": {
+      "position": [
+        {
+          "itemSize":3,
+          "type":"Float32Array",
+          "array":[
+            0.0, 0.0, 0.0,
+            0.0, 0.0,-0.8,
+            0.0, 0.0,-0.8,
+            0.0, 0.0,-0.8,
+            0.0, 0.0,-0.8,
+            0.0, 0.0,-0.4,
+            0.0, 0.0,-0.4,
+            0.0, 0.0,-0.4,
+            0.0, 0.0,-0.4
+          ],
+          "normalized":false
+        }
+      ]
+    }
+  }
+}
