@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef } from "react";
 import {
   shaderMaterial,
   Sparkles,
@@ -6,46 +6,46 @@ import {
   useTexture,
   useGLTF,
   OrbitControls,
-} from '@react-three/drei'
-import { useFrame, extend } from '@react-three/fiber'
-import * as THREE from 'three'
-import portalVertexShader from './shaders/portal/vertex.js'
+} from "@react-three/drei";
+import { useFrame, extend } from "@react-three/fiber";
+import * as THREE from "three";
+import portalVertexShader from "./shaders/portal/vertex.js";
 // console.log(portalVertexShader)
-import portalFragmentShader from './shaders/portal/fragment.js'
+import portalFragmentShader from "./shaders/portal/fragment.js";
 // console.log(portalFragmentShader)
 
 const PortalMaterial = shaderMaterial(
   {
     uTime: 0,
-    uColorStart: new THREE.Color('#ffffff'),
-    uColorEnd: new THREE.Color('#000000'),
+    uColorStart: new THREE.Color("#ffffff"),
+    uColorEnd: new THREE.Color("#000000"),
   },
   portalVertexShader,
   portalFragmentShader
-)
-extend({ PortalMaterial })
+);
+extend({ PortalMaterial });
 
 export default function Experience() {
-  const portalMaterial = useRef()
+  const portalMaterial = useRef();
 
   useFrame((state, delta) => {
-    portalMaterial.current.uTime += delta
-  })
+    portalMaterial.current.uTime += delta;
+  });
 
-  const { nodes, materials } = useGLTF('./model/portal.glb')
-  const model = useGLTF('./model/portal.glb')
+  const { nodes, materials } = useGLTF("./model/portal.glb");
+  const model = useGLTF("./model/portal.glb");
 
   //   const model = useGLTF(
   //     '../../38-importing-and-optimizing-the-scene/38-vite/public/resources/portal.glb'
   //   )
-  console.log(nodes, materials)
+  console.log(nodes, materials);
 
-  const bakedTexture = useTexture('./model/baked.jpg')
-  bakedTexture.flipY = false
-  console.log(bakedTexture)
+  const bakedTexture = useTexture("./model/baked.jpg");
+  bakedTexture.flipY = false;
+  console.log(bakedTexture);
   return (
     <>
-      <color args={['#201919']} attach="background" />
+      <color args={["#201919"]} attach="background" />
       <OrbitControls makeDefault />
 
       {/* <mesh scale={1.5}>
@@ -94,5 +94,5 @@ export default function Experience() {
         />
       </Center>
     </>
-  )
+  );
 }

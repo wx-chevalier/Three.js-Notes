@@ -1,14 +1,14 @@
-import { Suspense } from 'react'
+import { Suspense } from "react";
 
-import { OrbitControls } from '@react-three/drei'
-import { Perf } from 'r3f-perf'
-import { useLoader } from '@react-three/fiber'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import Model from './Model.js'
-import Placeholder from './Placeholder'
-import Hamburger from './Hamburger'
-import Fox from './Fox.js'
+import { OrbitControls } from "@react-three/drei";
+import { Perf } from "r3f-perf";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import Model from "./Model.js";
+import Placeholder from "./Placeholder";
+import Hamburger from "./Hamburger";
+import Fox from "./Fox.js";
 
 export default function Experience() {
   // const model = useLoader(GLTFLoader, './hamburger.glb')
@@ -50,5 +50,5 @@ export default function Experience() {
         <Fox scale={0.35} />
       </Suspense>
     </>
-  )
+  );
 }

@@ -203,11 +203,11 @@ OrbitControls 是鼠标镜头轨道控件，可以通过鼠标来配置镜头的
 
 #### OrbitControls 的用法
 
-```
-const controls = new OrbitControls(camera, canvas) //创建一个实例
-controls.target.set(0, 5, 0) //controls.target 为镜头的坐标系统
+```js
+const controls = new OrbitControls(camera, canvas); //创建一个实例
+controls.target.set(0, 5, 0); //controls.target 为镜头的坐标系统
 //controls.target.set(0, 5, 0) 的意思是：设置原点 Y 轴的坐标(以高出5米的轨道运行)
-controls.update() //使控件使用新目标
+controls.update(); //使控件使用新目标
 ```
 
 请注意，在上面代码中，OrbitControls 的构造函数中第 2 个参数为 DOM 中的 canvas 节点，实际上当添加过 OrbitControls 之后，鼠标在 canvas 上的 拖拽、鼠标滚轴滚动 等操作都会被捕捉到，并且做出相对应的镜头画面切换。

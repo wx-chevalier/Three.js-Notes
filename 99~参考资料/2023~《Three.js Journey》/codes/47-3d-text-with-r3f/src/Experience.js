@@ -1,25 +1,25 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from "react";
 import {
   useMatcapTexture,
   Center,
   Text3D,
   OrbitControls,
-} from '@react-three/drei'
-import { Perf } from 'r3f-perf'
-import * as THREE from 'three'
-import { useFrame } from '@react-three/fiber'
+} from "@react-three/drei";
+import { Perf } from "r3f-perf";
+import * as THREE from "three";
+import { useFrame } from "@react-three/fiber";
 
 // const torusGeometry = new THREE.TorusGeometry(1, 0.6, 16, 32)
 // const sphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 // const material = new THREE.MeshMatcapMaterial()
 
 export default function Experience() {
-  const [matcapTexture] = useMatcapTexture('613F04_D68C04_A45F04_1F0F04', 256)
+  const [matcapTexture] = useMatcapTexture("613F04_D68C04_A45F04_1F0F04", 256);
   //   console.log(matcapTexture)
 
-  const [torusGeometry, setTorusGeometry] = useState()
-  const [sphereGeometry, setSphereGeometry] = useState()
-  const [material, setMaterial] = useState()
+  const [torusGeometry, setTorusGeometry] = useState();
+  const [sphereGeometry, setSphereGeometry] = useState();
+  const [material, setMaterial] = useState();
 
   //   useEffect(() => {
   //     matcapTexture.encoding = THREE.sRGBEncoding
@@ -36,21 +36,21 @@ export default function Experience() {
   //   })
   useFrame((state, delta) => {
     for (const donut of donuts.current) {
-      donut.rotation.y += delta * 0.2
+      donut.rotation.y += delta * 0.2;
     }
-  })
+  });
 
   const tourusRef = (
     <torusGeometry args={[1, 0.6, 16, 32]} ref={setTorusGeometry} />
-  )
+  );
   const sphereRef = (
     <sphereGeometry args={[1, 32, 32]} ref={setSphereGeometry} />
-  )
+  );
 
-  const boxRef = <boxGeometry args={[1, 1, 1]} ref={setSphereGeometry} />
+  const boxRef = <boxGeometry args={[1, 1, 1]} ref={setSphereGeometry} />;
 
   //   const donutsGroup = useRef()
-  const donuts = useRef([])
+  const donuts = useRef([]);
   return (
     <>
       <Perf position="top-left" />
@@ -99,5 +99,5 @@ export default function Experience() {
       ))}
       {/* </group> */}
     </>
-  )
+  );
 }
