@@ -19,7 +19,6 @@ Three.js 是基于 WebGL 技术，用于浏览器中开发 3D 交互场景的 JS
 
 - 3D 沙发产品在线预览：http://app.xuanke3d.com/apps/trayton/#/show
 - 游乐园可交互场景：http://letsplay.ouigo.com/
-
 - 跟随音乐楼房跳动：http://analysis.4sceners.de/
 
 **Three.js 应用场景**

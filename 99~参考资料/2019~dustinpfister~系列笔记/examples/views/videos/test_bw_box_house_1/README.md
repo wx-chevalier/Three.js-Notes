@@ -1,1 +1,0 @@
-# beta world - object wrap test

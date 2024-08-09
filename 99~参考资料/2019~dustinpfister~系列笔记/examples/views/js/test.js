@@ -1,1 +1,0 @@
-console.log('we are ready to believe you.');
