@@ -515,7 +515,7 @@ loadingManager.onError = (url) => {
 
 首先我们先了解一下 mipmap 算法模式。
 
-#### 什么是 mipmap ？
+#### 什么是 mipmap？
 
 mipmap 是目前 3D 应用最为广泛的纹理映射技术之一。
 

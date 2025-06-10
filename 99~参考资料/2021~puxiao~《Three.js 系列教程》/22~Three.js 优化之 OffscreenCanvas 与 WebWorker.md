@@ -36,7 +36,7 @@ https://developer.mozilla.org/zh-cn/docs/web/api/web_workers_api/using_web_worke
 
 但是请记得：目前绝大多数浏览器均已支持 WebWorker，但是对 OffscreenCanvas 的支持度并不高。
 
-**如何创建 OffscreenCanvas ？**
+**如何创建 OffscreenCanvas？**
 
 不可以使用 new OffscreenWorker() 的方式来创建 OffscreenCanvas，而是使用 canvas.transferControlToOffscreen() 来获得 canvas 对应的 OffscreenCanvas。
 
@@ -579,7 +579,7 @@ self.document = {}
 import { EventDispatcher } from 'three'
 ```
 
-为什么不使用 原生 JS 提供的 EventTarget ？
+为什么不使用 原生 JS 提供的 EventTarget？
 
 这是因为原生 JS 提供的 EventTarget 虽然也有 .dispatcheEvent()，但问题是它只可以抛出 JS 中的 Event 实例，而我们在 worker 中并不能使用 Event。
 

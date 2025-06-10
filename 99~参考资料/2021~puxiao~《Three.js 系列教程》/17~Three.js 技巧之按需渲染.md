@@ -136,7 +136,7 @@ const handleResize = () => {
 
 实际修改后的代码，调试运行后，就做到了 按需渲染。
 
-**为什么不建议直接调用 render() ？**
+**为什么不建议直接调用 render()？**
 
 答：因为直接 render() 是在当前帧中执行的代码，这样可能会让浏览器 卡顿一下，而选择执行 window.requestAnimationFrame(render) 则明确告知浏览器，在下一帧中执行，确保用户体验流畅一些。
 

@@ -378,7 +378,7 @@ export default HelloCanvas
 
 **怎么图片啥内容都没有？纯色的？3 个立方体呢？**
 
-**what ？why ？**
+**what？why？**
 
 呵，马上讲解为什么。
 
