@@ -1,3 +1,0 @@
-# threejs-extrude-geometry
-
-

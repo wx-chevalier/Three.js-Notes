@@ -1,4 +1,0 @@
-# threejs-drag-controls
-
-
-

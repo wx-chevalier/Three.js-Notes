@@ -1,9 +1,0 @@
-{
-    "compilerOptions": {
-        "baseUrl": "./",
-        "paths": {
-            "GLHelper": [ "./src/index" ]
-        }
-    },
-    "exclude": [ "node_modules", "dist" ]
-}
