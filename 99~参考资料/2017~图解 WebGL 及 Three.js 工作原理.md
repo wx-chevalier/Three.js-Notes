@@ -81,10 +81,9 @@ WebGL 需要我们先处理顶点，那怎么处理呢？我们先看下图：
 我们引入了一个新的名词，叫“顶点着色器”，它由 opengl es 编写，由 javascript 以字符串的形式定义并传递给 GPU 生成。
 比如如下就是一段顶点着色器代码：
 
-```
+```javascript
 attribute vec4 position;``void` `main() {`` ``gl_Position = position; ``}
-```
-
+```javascript
 attribute 修饰符用于声明由浏览器（javascript）传输给顶点着色器的变量值；
 position 即我们定义的顶点坐标；
 gl_Position 是一个内建的传出变量。
@@ -100,13 +99,12 @@ gl_Position 是一个内建的传出变量。
 如上图，顶点着色器会先将坐标转换完毕，然后由 GPU 进行图元装配，有多少顶点，这段顶点着色器程序就运行了多少次。
 你可能留意到，这时候顶点着色器变为：
 
-```
+```javascript
 attribute vec4 position;
 void main() {
   gl_Position = position;
 }
-```
-
+```javascript
 这就是应用了矩阵 matrix，将三维世界坐标转换成屏幕坐标，这个矩阵叫投影矩阵，由 javascript 传入，至于这个 matrix 怎么生成，我们暂且不讨论。
 
 #### 4.2.3、光栅化
@@ -119,13 +117,12 @@ void main() {
 它同样是一段 opengl es 程序，模型看起来是什么质地（颜色、漫反射贴图等）、灯光等由片元着色器来计算。
 如下是一段简单的片元着色器代码：
 
-```
+```javascript
 precision mediump float;
 void main(void) {
     gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 }
-```
-
+```javascript
 gl_FragColor 即输出的颜色值。
 
 #### 4.2.3.1、片元着色器处理流程
@@ -192,10 +189,9 @@ GPU 根据顶点数量，挨个执行顶点着色器程序，生成顶点最终�
 
 现在，我们将模型顺时针旋转 Math.PI/6，所有顶点位置肯定都变化了。
 
-```
+```javascript
 box.rotation.y = Math.PI/6;
-```
-
+```javascript
 但是，如果我们直接将顶点位置用 javascript 计算出来，那性能会很低（顶点通常成千上万），而且，这些数据也非常不利于维护。
 所以，我们用矩阵 modelMatrix 将这个旋转信息记录下来。
 
@@ -205,10 +201,9 @@ box.rotation.y = Math.PI/6;
 
 然后，我们将相机往上偏移 30。
 
-```
+```javascript
 camera.position.y = 30;
-```
-
+```javascript
 同理，我们用矩阵 viewMatrix 将移动信息记录下来。
 
 **5.1.3、投影矩阵**
@@ -221,10 +216,9 @@ camera.position.y = 30;
 
 然后，我们编写顶点着色器：
 
-```
+```javascript
 gl_Position = position * modelMatrix * viewMatrix * projectionMatrix;
-```
-
+```javascript
 这样，我们就在 GPU 中，将最终顶点位置计算出来了。
 实际上，上面所有步骤，three.js 都帮我们完成了。
 

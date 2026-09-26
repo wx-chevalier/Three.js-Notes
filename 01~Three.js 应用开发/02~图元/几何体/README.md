@@ -10,4 +10,4 @@ Three.js 有大量的基本元素。基本元素通常是在运行时通过一�
 const radius = 7;
 const segments = 17;
 const geometry = new THREE.CircleBufferGeometry(radius, segments);
-```
+```javascript

@@ -15,8 +15,7 @@ const App = () => (
     </mesh>
   </Canvas>
 );
-```
-
+```javascript
 | PROP            | DESCRIPTION                                                                                                                                       | DEFAULT                                                           |
 | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------- |
 | children        | three.js JSX elements or regular components                                                                                                       |                                                                   |
@@ -74,8 +73,7 @@ root.render(<App />);
 
 // Unmount and dispose of memory
 // root.unmount()
-```
-
+```javascript
 # Tree-shaking
 
 v8 的新功能是，底层调和器不再自动拉入 THREE 命名空间。这使得一个细化的目录可以通过扩展 API 实现树形晃动。
@@ -94,8 +92,7 @@ createRoot(canvas).render(
     </mesh>
   </>
 );
-```
-
+```javascript
 有一个官方的 babel 插件会自动为你做这个。
 
 ```js
@@ -131,4 +128,4 @@ createRoot(canvasNode).render(
     <meshStandardMaterial />
   </mesh>
 );
-```
+```javascript

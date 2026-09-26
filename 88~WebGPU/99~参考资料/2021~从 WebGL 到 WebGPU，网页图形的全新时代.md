@@ -119,8 +119,7 @@ gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 gl.bufferData(gl.ARRAY_BUFFER, dataView, gl.STATIC_DRAW);
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 gl.drawArrays(mode, 0, size);
-```
-
+```javascript
 另外就是一个代码上的差距，观察我们用 WebGL 原生 API 绘制的过程，你可以发现所有的东西的起点都在于 Canvas；然而这是一件很不可思议的事情，就是我即使不需要画什么东西，我也需要创建一个 Canvas 元素，这个操作对于我们这个前端可能是无感知的，但是对于浏览器开发者来说我要新建一个 DOM 元素，就要给它增加所有它需要有的东西，一旦 DOM 元素崩溃了，浏览器要处理所有这些事情，对于开发者而言后面的事情就会变得非常复杂。
 
 ```js
@@ -135,8 +134,7 @@ renderPassEncoder.setPipeline(renderPipeline);
 renderPassEncoder.drawIndexed(indexCount, 1, 0, 0, 0);
 renderPassEncoder.endPass();
 device.queue.submit([ commandEncoder.finish() ]);
-```
-
+```javascript
 但是 WebGPU 不是这样，WebGPU 的入口是 navigator.gpu，你可以从这里获取到一个显卡，再从显卡获取到一个设备，而中间的 Canvas 有没有是可选的。
 
 如果你单纯只是想用显卡做一些事情，不想把它绘制在屏幕上，你完全可以不用新建 Canvas 元素，整个代码实例我们后面还会详细讲一下，所以我们这里就略过。
@@ -185,8 +183,7 @@ fn main (
 ) -> [[builtin(position)]] vec4<f32> {
     return uniforms.uPMatrix * uniforms.uMVMatrix * vec4<f32>(aVertexPosition, 1.0);
 }
-```
-
+```javascript
 上面这个就是 WGSL 语言写的一个很简单的着色器，你可以看到它的变量名称后面跟了冒号，然后再是类型，这点很像 TypeScript，并且出现了泛型，而它下面的这个函数 fn，一个单箭头指向的语法也很像 Rust，所以说它就是这么一个缝合怪，它现在的语言的标准也在不断地修改。
 
 ```js
@@ -207,8 +204,7 @@ renderPassEncoder.drawIndexed( indexCount, 1, 0, 0, 0 );
 renderPassEncoder.endPass();
 // 结束命令编码器并发送到 GPU 设备的指令队列中
 device.queue.submit( [ commandEncoder.finish() ] );
-```
-
+```javascript
 下面，我们简单讲一下 WebGPU 的整个绘制过程。首先就是你要获取一个硬件设备，之前在 WebGL 中开发者对硬件设备的获取其实是模糊的，你也不太需要关心用户使用的什么显卡，但是现在你可以精确地知道用户安装的是什么显卡。
 
 另外就是 Canvas，以前所有的 WebGL 接口都是绑定在上下文里，但是现在上下文只是负责一个类似于交换链的作用，告诉 GPU 最后画到哪儿。如果你的应用不需要绘制在屏幕上，你完全不需要新建 Canvas。最后一个很重要的概念是命令编码器，command encoder，它的意思是说你可以把你想让 GPU 执行所有的命令都压到命令编码器里面，让命令编码器把所有的这些命令编在一起，然后存成命令缓存，然后再发送到 GPU 里面。下面还有一些很重要的概念，就是跟绘制相关的，包括渲染通道，然后渲染管线等等这些。

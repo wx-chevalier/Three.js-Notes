@@ -22,8 +22,7 @@ function animate() {
 }
 
 animate();
-```
-
+```javascript
 R3F 风格的场景代码：
 
 ```tsx
@@ -46,4 +45,4 @@ function App() {
 }
 
 createRoot(document.getElementById("root")).render(<App />);
-```
+```javascript
