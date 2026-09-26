@@ -15,7 +15,7 @@ const App = () => (
     </mesh>
   </Canvas>
 );
-```javascript
+```
 | Prop            | Description                                                                                                                                       | Default                                                           |
 | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------- |
 | children        | three.js JSX elements or regular components                                                                                                       |                                                                   |
@@ -46,7 +46,7 @@ On some systems WebGL may not be supported, you can provide a fallback component
 <Canvas fallback={<div>Sorry no WebGL supported!</div>}>
   <mesh />
 </Canvas>
-```javascript
+```
 You should also safeguard the canvas against WebGL context crashes, for instance if users have the GPU disabled or GPU drivers are faulty.
 
 ```jsx
@@ -64,7 +64,7 @@ function App() {
     </ErrorBoundary>
   );
 }
-```javascript
+```
 # Custom Canvas
 
 R3F can render to a root, similar to how `react-dom` and all the other React renderers work. This allows you to shave off `react-dom` (~40kb), `react-use-measure` (~3kb) and, if you don't need them, `pointer-events` (~7kb) (you need to explicitly import `events` and add them to the config otherwise).
@@ -104,7 +104,7 @@ root.render(<App />);
 
 // Unmount and dispose of memory
 // root.unmount()
-```javascript
+```
 Tree-shaking
 
 New with v8, the underlying reconciler no longer pulls in the THREE namespace automatically.
@@ -125,7 +125,7 @@ createRoot(canvas).render(
     </mesh>
   </>
 );
-```javascript
+```
 There's an [official babel plugin](https://github.com/pmndrs/react-three-babel) which will do this for you automatically:
 
 ```jsx
@@ -161,4 +161,4 @@ createRoot(canvasNode).render(
     <meshStandardMaterial />
   </mesh>
 );
-```javascript
+```

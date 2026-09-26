@@ -6,7 +6,7 @@ Three.js 中最重要的问题是，创建对象可能很昂贵，在你安装/�
 const geom = useMemo(() => new BoxGeometry(), [])
 const mat = useMemo(() => new MeshBasicMaterial(), [])
 return items.map(i => <mesh geometry={geom} material={mat} ...
-```javascript
+```
 如下面这样尽可能复用：
 
 ```js
@@ -114,7 +114,7 @@ function Post() {
     </Effects>
   );
 }
-```javascript
+```
 # Avoid setState in loops
 
 即使 React 可以处理它，你也不会想每秒钟调用 60 或 120 次。抛开性能风险不谈，仅仅是连续设置数值是不够的，你需要有管理的帧延迟，否则你的项目将根据最终用户的系统以不同的速度运行。另外，threejs 中的许多更新都需要与更新标志（.needsUpdate = true）或强制函数（.updateProjectionMatrix()）相匹配。最好习惯于这样的想法：threejs 本身是循环驱动的，而框架是反应式的。你需要两者，状态和道具的反应性，动画的循环。让 React 处理前者，而 Fiber 为后者提供一个出口：useFrame。这个钩子在一个组合的 framelop 中运行，包括 deltas 和更多。
@@ -133,7 +133,7 @@ useEffect(() => {
 
 ❌ setState in fast events is bad
 <mesh onPointerMove={(e) => setX((x) => e.point.x)} />
-```javascript
+```
 一般来说，你应该倾向于使用 Frame。只要组件是唯一会变动的实体，就可以考虑安全地变动 props。使用 deltas 而不是固定值，这样你的应用程序就可以不受刷新率的影响，在任何地方都能以同样的速度运行。
 
 ```js
@@ -149,7 +149,7 @@ useEffect(() => {
   const interval = setInterval(() => ref.current.position.x += 0.1), 1)
   return () => clearInterval(interval)
 }, [])
-```javascript
+```
 # Handle animations in loops
 
 帧循环是你应该放置你的动画的地方。例如使用 lerp，或 damp。
@@ -161,7 +161,7 @@ function Signal({ active }) {
     ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, active ? 100 : 0, 0.1)
   })
   return <mesh ref={ref} />
-```javascript
+```
 或者，使用动画库。React-spring 有自己的框架-循环，并在 React 之外进行动画。Framer-motion 是另一个流行的选择。
 
 ```js
@@ -170,7 +170,7 @@ import { a, useSpring } from '@react-spring/three'
 function Signal({ active }) {
   const { x } = useSpring({ x: active ? 100 : 0 })
   return <a.mesh position-x={x} />
-```javascript
+```
 # Do not bind to fast state reactively
 
 使用状态管理程序和选择性状态是可以的，但对于快速发生的更新来说，就不是这样了，原因和上面一样。
@@ -182,13 +182,13 @@ import { useSelector } from 'react-redux'
 // Assuming that x gets animated inside the store 60fps
 const x = useSelector((state) => state.x)
 return <mesh position-x={x} />
-```javascript
+```
 而应该定期主动获取：
 
 ```js
 useFrame(() => (ref.current.position.x = api.getState().x));
 return <mesh ref={ref} />;
-```javascript
+```
 # Don't mount indiscriminately
 
 在 threejs 中，完全不重新挂载是很常见的，见 discover-three 中的 ["disposing of things"](https://discoverthreejs.com/tips-and-tricks/) 部分。这是因为缓冲区和材料会被重新初始化/编译，这可能很昂贵。
@@ -214,7 +214,7 @@ function Stage1(props) {
   return (
     <group {...props}>
       ...
-```javascript
+```
 React 18 引入了 startTransition 和 useTransition APIs 来推迟和安排工作和状态更新。使用这些来降低昂贵操作的优先级。自 Fiber canvases 的第 8 版以来，默认使用并发模式，这意味着 React 将安排和推迟昂贵的操作。你不需要做任何事情，但你可以玩玩实验性的调度器，看看用较低的优先级来标记操作是否会有变化。
 
 ```js
@@ -239,7 +239,7 @@ const sizes = calculateSizes(radius)
 >
   <meshBasicMaterial vertexColors />
 </Points>
-```javascript
+```
 # Don't re-create objects in loops
 
 尽量避免给垃圾收集器带来太多麻烦，在可以的情况下对对象进行重新分类。
@@ -256,7 +256,7 @@ function Foo(props)
   useFrame(() => {
     ref.current.position.lerp(vec.set(x, y, z), 0.1)
   })
-```javascript
+```
 # useLoader instead of plain loaders
 
 Threejs 加载器为你提供了加载异步资产（模型、纹理等）的能力，但如果你不重复使用资产，它很快就会出现问题。
@@ -284,4 +284,4 @@ function Component() {
     </mesh>
   )
 }
-```javascript
+```

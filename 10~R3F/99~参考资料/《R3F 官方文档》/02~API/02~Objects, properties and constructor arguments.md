@@ -16,7 +16,7 @@ You can use three.js's entire object catalogue and all properties. When in doubt
     })
   }
 />
-```javascript
+```
 ✅ The problem is that all of these properties will always be re-created. Instead, you should define properties declaratively.
 
 ```tsx
@@ -29,14 +29,14 @@ You can use three.js's entire object catalogue and all properties. When in doubt
   <sphereGeometry args={[1, 16, 16]} />
   <meshStandardMaterial color="hotpink" transparent />
 </mesh>
-```javascript
+```
 ## Constructor arguments
 
 In three.js objects are classes that are instantiated. These classes can receive one-time constructor arguments (`new THREE.SphereGeometry(1, 32)`), and properties (`someObject.visible = true`). In React Three Fiber, constructor arguments are always passed as an array via `args`. If args change later on, the object must naturally get reconstructed from scratch!
 
 ```jsx
 <sphereGeometry args={[1, 32]} />
-```javascript
+```
 ## Set
 
 All properties whose underlying object has a `.set()` method can directly receive the same arguments that `set` would otherwise take. For example [`THREE.Color.set`](https://threejs.org/docs/#api/en/math/Color.set) can take a color string, so instead of `color={new THREE.Color('hotpink')}` you can simply write `color="hotpink"`. Some `set` methods take multiple arguments, for instance [`THREE.Vector3`](https://threejs.org/docs/#api/en/math/Vector3.set), give it an array in that case `position={[100, 0, 0]}`.
@@ -44,18 +44,18 @@ All properties whose underlying object has a `.set()` method can directly receiv
 ```jsx
 <mesh position={[1, 2, 3]} />
   <meshStandardMaterial color="hotpink" />
-```javascript
+```
 Properties that have a `setScalar` method (for instance `Vector3`) can be set like so:
 
 ```jsx
 // Translates to <mesh scale={[1, 1, 1]} />
 <mesh scale={1} />
-```javascript
+```
 If you want to reach into nested attributes (for instance: `mesh.rotation.x`), just use dash-case.
 
 ```jsx
 <mesh rotation-x={1} material-uniforms-resolution-value={[512, 512]} />
-```javascript
+```
 # Dealing with non-scene objects
 
 You can put non-Object3D primitives (geometries, materials, etc) into the render tree as well. They take the same properties and constructor arguments they normally would.
@@ -72,21 +72,21 @@ The following attaches a material to the `material` property of a mesh and a geo
 <mesh>
   <meshBasicMaterial attach="material" />
   <boxGeometry attach="geometry" />
-```javascript
+```
 All objects extending `THREE.Material` receive `attach="material"`, and all objects extending `THREE.BufferGeometry` receive `attach="geometry"`. You do not have to type it out!
 
 ```jsx
 <mesh>
   <meshBasicMaterial />
   <boxGeometry />
-```javascript
+```
 You can also deeply nest attach through piercing. The following adds a buffer-attribute to `geometry.attributes.position` and then adds the buffer geometry to `mesh.geometry`.
 
 ```jsx
 <mesh>
   <bufferGeometry>
     <bufferAttribute attach="attributes-position" count={v.length / 3} array={v} itemSize={3} />
-```javascript
+```
 More examples
 
 ```jsx
@@ -114,7 +114,7 @@ More examples
 // The same as a one liner
 <foo>
   <bar attach={(parent, self) => (parent.add(self), () => parent.remove(self))} />
-```javascript
+```
 Real-world use-cases:
 
 Attaching to nested objects, for instance a shadow-camera:
@@ -133,14 +133,14 @@ Attaching to nested objects, for instance a shadow-camera:
 + <directionalLight castShadow position={[2.5, 8, 5]} shadow-mapSize={[1024, 1024]}>
 +   <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
 + </directionalLight>
-```javascript
+```
 Arrays must have explicit order, for instance multi-materials:
 
 ```jsx
 <mesh>
   {colors.map((color, index) => <meshBasicMaterial key={index} attach={`material-${index}`} color={color} />}
 </mesh>
-```javascript
+```
 # Putting already existing objects into the scene-graph
 
 You can use the `primitive` placeholder for that. You can still give it properties or attach nodes to it. Never add the same object multiple times, this is not allowed in three.js! Primitives will not dispose of the object they carry on unmount, you are responsible for disposing of it!
@@ -150,7 +150,7 @@ const mesh = new THREE.Mesh(geometry, material)
 
 function Component() {
   return <primitive object={mesh} position={[10, 0, 0]} />
-```javascript
+```
 Scene objects can only ever be added once in Threejs. If you attempt to add one and the same object in two places Threejs will remove the first instance automatically. This will also happen with primitive! If you want to re-use an existing object, you must clone it first.
 
 # Using 3rd-party objects declaratively
@@ -167,7 +167,7 @@ return (
   <>
     <orbitControls />
     <transformControls />
-```javascript
+```
 If you're using TypeScript, you'll also need to [extend the JSX namespace](https://docs.pmnd.rs/react-three-fiber/tutorials/typescript#extending-jsx-intrinsic-elements).
 
 # Disposal
@@ -184,4 +184,4 @@ function Mesh() {
   return (
     <group dispose={null}>
       <mesh geometry={globalGeometry} material={globalMaterial} />
-```javascript
+```

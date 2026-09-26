@@ -38,4 +38,4 @@ createRoot(document.getElementById("root")).render(
     <Box position={[1.2, 0, 0]} />
   </Canvas>
 );
-```javascript
+```

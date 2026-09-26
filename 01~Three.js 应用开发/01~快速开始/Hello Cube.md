@@ -57,7 +57,7 @@ function main() {
 }
 
 main();
-```javascript
+```
 ## 相机
 
 这里对于相机的位置进行简要分析：
@@ -90,7 +90,7 @@ function render(time) {
   requestAnimationFrame(render);
 }
 requestAnimationFrame(render);
-```javascript
+```
 requestAnimationFrame 会告诉浏览器你有那些东西想要做动画。传入一个函数作为回调函数。我们这里的函数是 render。浏览器 会调用你的函数然后如果你更新了跟页面显示有关的东西，浏览器就会重新渲染页面。我们这里是调用 three.js 的 renderer.render 函数来绘制我们的场景。
 
 requestAnimationFrame 会传入从页面加载到 我们函数的时间. 传入的时间是毫秒数。我发现 用秒会更简单所以我们把它转换成秒。
@@ -107,13 +107,13 @@ requestAnimationFrame 会传入从页面加载到 我们函数的时间. 传入�
   light.position.set(-1, 2, 4);
   scene.add(light);
 }
-```javascript
+```
 平行光有一个位置和目标点。默认值都为 0, 0, 0。我们这里 设置灯光的位置为 -1, 2, 4 所以它位于摄像机前面的 稍微左上方一点。目标点还是 0, 0, 0 所以它朝向 坐标原点。我们还需要改变材质。MeshBasicMaterial 材质不会受到灯光的 影响。我们将他改成会受灯光影响的 MeshPhongMaterial 材质。
 
 ```js
 - const material = new THREE.MeshBasicMaterial({color: 0x44aa88});  // greenish blue
 + const material = new THREE.MeshPhongMaterial({color: 0x44aa88});  // greenish blue
-```javascript
+```
 ![灯光效果](https://s1.ax1x.com/2020/10/28/B1DjxS.png)
 
 ## 多个立方体
@@ -131,7 +131,7 @@ function makeInstance(geometry, color, x) {
 
   return cube;
 }
-```javascript
+```
 然后我们将使用三种不同的颜色和 X 轴位置调用三次函数，将生成的网格实例存在一个数组中。
 
 ```js
@@ -140,7 +140,7 @@ const cubes = [
   makeInstance(geometry, 0x8844aa, -2),
   makeInstance(geometry, 0xaa8844, 2),
 ];
-```javascript
+```
 最后我们将在渲染函数中旋转三个立方体。我们 给每个立方体设置了稍微不同的旋转角度。
 
 ```js
@@ -155,4 +155,4 @@ function render(time) {
   });
 
   ...
-```javascript
+```

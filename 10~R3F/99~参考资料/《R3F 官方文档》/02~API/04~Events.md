@@ -22,7 +22,7 @@ Also notice the `onPointerMissed` on the canvas element, which fires on clicks t
   onPointerMissed={() => console.log("missed")}
   onUpdate={(self) => console.log("props have been updated")}
 />
-```javascript
+```
 Event data
 
 ```jsx
@@ -38,7 +38,7 @@ Event data
   sourceEvent: DomEvent         // A reference to the host event
   delta: number                 // Distance between mouse down and mouse up event in pixels
 }) => ...
-```javascript
+```
 # How the event-system works, bubbling and capture
 
 `pointerenter` and `pointerleave` events work exactly the same as pointerover and pointerout. `pointerenter` and `pointerleave` semantics are not implemented.
@@ -56,7 +56,7 @@ onPointerOver={e => {
   e.stopPropagation()
   // ...
 }}
-```javascript
+```
 even if you don't want this object to respond to the pointer event. If you do want to handle the event as well as using `stopPropagation()`, remember that the pointerout events will happen **during** the `stopPropagation()` call. You probably want your other event handling to happen after this.
 
 # Pointer capture
@@ -79,7 +79,7 @@ onPointerUp={e => {
   // Optionally release capture
   e.target.releasePointerCapture(e.pointerId)
 }}
-```javascript
+```
 # Customizing the event settings
 
 For some advanced usage it's possible to customize the setting of the event manager globally with the `events` prop on `<Canvas/>`:
@@ -114,7 +114,7 @@ function App() {
   return (
     <Canvas events={eventManagerFactory}>
 }
-```javascript
+```
 # Using a different target element
 
 There are cases in which you may want to connect the event handlers to another DOM element instead of the canvas. This is usually done to have events on a shared parent, which allows both the canvas, and dom overlays to receive events.
@@ -125,7 +125,7 @@ You can either use the event manager:
 const events => useThree(state => state.events)
 useEffect(() => {
   state.events.connect(domNode)
-```javascript
+```
 Or, the `eventSource` shortcut on the canvas (DOM only), which accepts dom-nodes and React.RefObjects to dom-nodes.
 
 ```jsx
@@ -134,7 +134,7 @@ function App() {
   return (
     <div ref={target}>
       <Canvas eventSource={target.current}>
-```javascript
+```
 # Using a different prefix (DOM only)
 
 By default Fiber will use offsetX/offsetY to set up the raycaster. You can change this with the `eventPrefix` shortcut.
@@ -143,7 +143,7 @@ By default Fiber will use offsetX/offsetY to set up the raycaster. You can chang
 function App() {
   return (
     <Canvas eventPrefix="client">
-```javascript
+```
 # Allow raycast without user interaction
 
 By default Fiber will only raycast when the user is interacting with the canvas. If, for instance, the camera moves a hoverable object underneath the cursor it will not trigger a hover event. If this is wanted behaviour you can force a raycast by executing `update()`, call it whenever necessary.
@@ -153,5 +153,5 @@ const events => useThree(state => state.events)
 useEffect(() => {
   // Will trigger a onPointerMove with the last-known pointer event
   state.events.update()
-```javascript
+```
 You can abstract this into more complex logic.

@@ -14,7 +14,7 @@ function App() {
   return (
     <Canvas>
       <mesh>
-```javascript
+```
 ✅ Do this instead:
 
 ```jsx
@@ -27,7 +27,7 @@ function App() {
   return (
     <Canvas>
       <Foo />
-```javascript
+```
 # useThree
 
 This hook gives you access to the state model which contains the default renderer, the scene, your camera, and so on. It also gives you the current size of the canvas in screen and viewport coordinates.
@@ -37,7 +37,7 @@ import { useThree } from '@react-three/fiber'
 
 function Foo() {
   const state = useThree()
-```javascript
+```
 The hook is reactive, if you resize the browser for instance, you get fresh measurements, same applies to any of the state objects that may change.
 
 | Prop            | Description                                                                   | Type                                                                                                                                                                                                           |
@@ -79,7 +79,7 @@ const camera = useThree((state) => state.camera);
 const viewport = useThree((state) => state.viewport);
 // ❌ You cannot expect reactivity from three.js internals!
 const zoom = useThree((state) => state.camera.zoom);
-```javascript
+```
 Reading state from outside of the component cycle
 
 ```jsx
@@ -87,7 +87,7 @@ function Foo() {
   const get = useThree((state) => state.get)
   ...
   get() // Get fresh state from anywhere you want
-```javascript
+```
 Exchanging defaults
 
 ```jsx
@@ -97,7 +97,7 @@ function Foo() {
   useEffect(() => {
     set({ camera: new THREE.OrthographicCamera(...) })
   }, [])
-```javascript
+```
 # useFrame
 
 This hook allows you to execute code on every rendered frame, like running effects, updating controls, and so on. You receive the state (same as `useThree`) and a clock delta. Your callback function will be invoked just before a frame is rendered. When the component unmounts it is unsubscribed automatically from the render-loop.
@@ -109,7 +109,7 @@ function Foo() {
   useFrame((state, delta, xrFrame) => {
     // This function runs at the native refresh rate inside of a shared render-loop
   })
-```javascript
+```
 > Be careful about what you do inside useFrame! You should never setState in there! Your calculations should be slim and you should mind all the commonly known pitfalls when dealing with loops in general, like re-use of variables, etc.
 
 ## Taking over the render-loop
@@ -128,7 +128,7 @@ function RenderOnTop() {
   useFrame(({ gl, ... }) => {
     gl.render(...)
   }, 2)
-```javascript
+```
 > Callbacks will be executed in order of ascending priority values (lowest first, highest last.), similar to the DOM's z-order.
 
 ## Negative indices
@@ -143,7 +143,7 @@ function A() {
 function B() {
   // This useFrame will execute *after* A's
   useFrame(() => ..., -1)
-```javascript
+```
 # useLoader
 
 This hook loads assets and suspends for easier fallback- and error-handling. It can take any three.js loader as its first argument: GLTFLoader, OBJLoader, TextureLoader, FontLoader, etc. It is based on [React.Suspense](https://react.dev/reference/react/Suspense), so fallback-handling and [error-handling](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) happen at the parental level.
@@ -167,7 +167,7 @@ function App() {
     </Suspense>
   );
 }
-```javascript
+```
 Assets loaded with useLoader are cached by default. The urls given serve as cache-keys. This allows you to re-use loaded data everywhere in the component tree.
 
 Be very careful with mutating or disposing of loaded assets, especially when you plan to re-use them. Refer to the automatic disposal section in the API.
@@ -184,7 +184,7 @@ useLoader(GLTFLoader, url, (loader) => {
   dracoLoader.setDecoderPath("/draco-gltf/");
   loader.setDRACOLoader(dracoLoader);
 });
-```javascript
+```
 ## Loading multiple assets at once
 
 It can also make multiple requests in parallel:
@@ -195,7 +195,7 @@ const [bumpMap, specMap, normalMap] = useLoader(TextureLoader, [
   url2,
   url2,
 ]);
-```javascript
+```
 ## Loading status
 
 You can get the loading status from a callback you provide as the fourth argument. Though consider alternatives like THREE.DefaultLoadingManager or better yet, [Drei's](https://github.com/pmndrs/drei) loading helpers.
@@ -204,21 +204,21 @@ You can get the loading status from a callback you provide as the fourth argumen
 useLoader(loader, url, extensions, (xhr) => {
   console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
 });
-```javascript
+```
 Special treatment of GLTFLoaders and all loaders that return a scene prop
 
 If a `result.scene` prop is found the hook will automatically create a object & material collection: `{ nodes, materials }`. This lets you build immutable scene graphs selectively. You can also specifically alter the data without having to traverse it. [GLTFJSX](https://github.com/pmndrs/gltfjsx) specifically relies on this data.
 
 ```jsx
 const { nodes, materials } = useLoader(GLTFLoader, url);
-```javascript
+```
 ## Pre-loading assets
 
 You can pre-load assets in global space so that models can be loaded in anticipation before they're mounted in the component tree.
 
 ```jsx
 useLoader.preload(GLTFLoader, "/model.glb" /* extensions */);
-```javascript
+```
 # useGraph
 
 Convenience hook which creates a memoized, named object/material collection from any [`Object3D`](https://threejs.org/docs/#api/en/core/Object3D).
@@ -231,4 +231,4 @@ function Model(url) {
   const { nodes, materials } = useGraph(scene);
   return <mesh geometry={nodes.robot.geometry} material={materials.metal} />;
 }
-```javascript
+```

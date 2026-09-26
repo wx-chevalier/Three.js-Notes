@@ -17,4 +17,4 @@ directionalLight.distance = 0;
 directionalLight.intensity = 0.5;
 directionalLight.shadowMapHeight = 1024;
 directionalLight.shadowMapWidth = 1024;
-```javascript
+```

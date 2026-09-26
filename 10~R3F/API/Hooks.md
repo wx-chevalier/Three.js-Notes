@@ -24,7 +24,7 @@ function App() {
   return (
     <Canvas>
       <Foo />
-```javascript
+```
 # useThree
 
 这个 Hook 可以让你访问状态模型，其中包含默认的渲染器、场景、你的相机等等。它还会给你提供屏幕和视口坐标中画布的当前尺寸。
@@ -34,7 +34,7 @@ import { useThree } from '@react-three/fiber'
 
 function Foo() {
   const state = useThree()
-```javascript
+```
 这个 Hook 是反应式的，例如，如果你调整浏览器的大小，你会得到新的测量结果，这同样适用于任何可能发生变化的状态对象。
 
 | PROP            | DESCRIPTION                                                                   | TYPE                                                                                                                                                                                                           |
@@ -86,7 +86,7 @@ function Foo() {
   useEffect(() => {
     set({ camera: new THREE.OrthographicCamera(...) })
   }, [])
-```javascript
+```
 # useFrame
 
 这个 Hook 允许你在每个渲染的帧上执行代码，比如运行特效、更新控件等等。你会收到状态（与 useThree 相同）和一个时钟 delta。你的回调函数将在一个帧被渲染之前被调用。当组件卸载时，它将自动从渲染循环中取消订阅。
@@ -98,7 +98,7 @@ function Foo() {
   useFrame((state, delta, xrFrame) => {
     // This function runs at the native refresh rate inside of a shared render-loop
   })
-```javascript
+```
 小心你在 useFrame 里面做的事情！你不应该在里面设置状态。你不应该在里面设置状态。你的计算应该是细小的，而且你应该注意在处理一般的循环时的所有已知的陷阱，比如重复使用变量等等。如果你需要更多的控制，你可以传递一个数字的 renderPriority 值。这将导致 React Three Fiber 完全禁用自动渲染。现在将由你负责渲染，这在你与 effect composers、heads-up displays 等一起工作时很有用。
 
 ```js
@@ -113,7 +113,7 @@ function RenderOnTop() {
   useFrame(({ gl, ... }) => {
     gl.render(...)
   }, 2)
-```javascript
+```
 回调将按照优先级升值的顺序执行（最低的在前，最高的在后。），类似于 DOM 的 Z-order。使用负指数不会接管渲染循环，但如果你真的必须在组件树上排列 useFrames 的顺序，那么它就会很有用。
 
 ```js
@@ -124,7 +124,7 @@ function A() {
 function B() {
   // This useFrame will execute *after* A's
   useFrame(() => ..., -1)
-```javascript
+```
 # useLoader
 
 这个 Hook 加载 assets 并暂停，以方便回退和错误处理。它可以接受任何 three.js 加载器作为它的第一个参数。GLTFLoader, OBJLoader, TextureLoader, FontLoader, 等等。它是基于 React.Suspense 的，所以回退处理和错误处理发生在父级层面。
@@ -148,7 +148,7 @@ function App() {
     </Suspense>
   );
 }
-```javascript
+```
 用 useLoader 加载的资产默认是缓存的。给出的 Url 作为缓存键。这允许你在组件树中的任何地方重新使用加载的数据。在突变或处理加载的资产时要非常小心，特别是当你打算重新使用它们时。如果你需要配置你的加载器，你可以提供一个回调作为第三个参数。
 
 ```js
@@ -159,7 +159,7 @@ useLoader(GLTFLoader, url, (loader) => {
   dracoLoader.setDecoderPath("/draco-gltf/");
   loader.setDRACOLoader(dracoLoader);
 });
-```javascript
+```
 它还可以并行地提出多个请求。
 
 ```js
@@ -168,24 +168,24 @@ const [bumpMap, specMap, normalMap] = useLoader(TextureLoader, [
   url2,
   url2,
 ]);
-```javascript
+```
 你可以从你提供的作为第四个参数的回调中获得加载状态。不过可以考虑像 THREE.DefaultLoadingManager 这样的替代品，或者更好的是 Drei 的加载帮助器。
 
 ```js
 useLoader(loader, url, extensions, (xhr) => {
   console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
 });
-```javascript
+```
 如果发现一个 result.scene prop，Hooks 将自动创建一个对象和材料集合：{ nodes, materials }。这让你可以有选择地建立不可变的场景图。你也可以专门改变数据，而不需要遍历它。GLTFJSX 特别依赖这些数据。
 
 ```js
 const { nodes, material } = useLoader(GLTFLoader, url);
-```javascript
+```
 你可以在全局空间中预加载资产，这样模型就可以在组件树中安装之前预期地加载。
 
 ```js
 useLoader.preload(GLTFLoader, "/model.glb" /* extensions */);
-```javascript
+```
 # useGraph
 
 方便的钩子，可以从任何 Object3D 中创建一个记忆化的、命名的对象/材料集合。
@@ -198,4 +198,4 @@ function Model(url) {
   const { nodes, materials } = useGraph(scene);
   return <mesh geometry={nodes.robot.geometry} material={materials.metal} />;
 }
-```javascript
+```
